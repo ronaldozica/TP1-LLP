@@ -41,7 +41,7 @@ public class LexicalAnalysis implements AutoCloseable {
                     if (c == ' ' || c == '\r' || c == '\t') {
                         state = 1;
                     } else if (c == '\n') {
-                        line++;
+                        this.line++;
                         state = 1;
                     } else if (c == '#') {
                         state = 2;
@@ -70,7 +70,6 @@ public class LexicalAnalysis implements AutoCloseable {
                         lex.token += (char) c;
                         state = 10;
                     } else if (c == '\'') {
-                        lex.token += (char) c;
                         state = 11;
                     } else if (c == -1) {
                         lex.type = TokenType.END_OF_FILE;
@@ -84,7 +83,7 @@ public class LexicalAnalysis implements AutoCloseable {
 
                 case 2:
                     if (c == '\n') {
-                        line++;
+                        this.line++;
                         state = 1;
                     } else if (c == -1) {
                         lex.type = TokenType.END_OF_FILE;
@@ -143,9 +142,11 @@ public class LexicalAnalysis implements AutoCloseable {
                         lex.token += (char) c;
                         state = 12;
                     } else if(c == -1){
+                        ungetc(c);
                         lex.type = TokenType.UNEXPECTED_EOF;
                         state = 13;
                     } else{
+                        ungetc(c);
                         lex.type = TokenType.INVALID_TOKEN;
                         state = 13;
                     }
@@ -170,11 +171,11 @@ public class LexicalAnalysis implements AutoCloseable {
                     }
                     break;
                 case 11:
-                    if( c != '\''){
+                    if(c != '\''){
                         lex.token += (char) c;
                         state = 11;
                     } else{
-                        lex.token += (char) c;
+                        lex.type = TokenType.STRING;
                         state = 13;
                     }
                     break;

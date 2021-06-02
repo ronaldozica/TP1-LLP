@@ -13,14 +13,14 @@ for e in min..max do
 end
 
 # Get how many chances?
-puts 'Calculei o somatorio da progressão de ' + min.to_s + ' ate ' + max.to_s + '.';
-print 'Com quantas chances você quer tentar acertar esse valor? ';
+puts 'Calculei o somatorio da progressao de ' + min.to_s + ' ate ' + max.to_s + '.';
+print 'Com quantas chances voce quer tentar acertar esse valor? ';
 chances = gets.to_i;
 
 # Attempts.
 n = 0;
 found = 0;
-attempts = [ ]
+attempts = [];
 while n < chances and found != 1 do
   n = n + 1;
   print '  Chance ' + n.to_s + ' de ' + chances.to_s + ': ';
