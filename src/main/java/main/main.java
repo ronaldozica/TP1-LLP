@@ -1,26 +1,50 @@
+
+package main;
+
+import interpreter.command.Command;
+import java.io.IOException;
+import java.util.Arrays;
 import lexical.Lexeme;
 import lexical.LexicalAnalysis;
 import lexical.TokenType;
+import syntatic.SyntaticAnalysis;
 
-public class mrbi {
+public class main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+     
+        System.out.println("Código aberto: " + args[0] + "\n");
+        
+        /* - Debug para verificar o arquivo passado e o diretório atual:
+        
+        System.out.println(args[0]);
+        
+        String currentPath = new java.io.File(".").getCanonicalPath();
+        System.out.println("Current dir:" + currentPath);
+
+        String currentDir = System.getProperty("user.dir");
+        System.out.println("Current dir using System:" + currentDir);
+        
+        */
+        
         if (args.length != 1) {
             System.out.println("Usage: java mrbi [miniRuby file]");
             return;
         }
 
         try (LexicalAnalysis l = new LexicalAnalysis(args[0])) {
-            /*
+            
             // O código a seguir é dado para testar o interpretador.
             // TODO: descomentar depois que o analisador léxico estiver OK.
             SyntaticAnalysis s = new SyntaticAnalysis(l);
             Command c = s.start();
-            c.execute();
-            */
+            //c.execute();
+            
 
             // O código a seguir é usado apenas para testar o analisador léxico.
             // TODO: depois de pronto, comentar o código abaixo.
+            
+            /*
             Lexeme lex = l.nextToken();
             while (checkType(lex.type)) {
                 System.out.printf("(\"%s\", %s)\n", lex.token, lex.type);
@@ -38,6 +62,7 @@ public class mrbi {
                     System.out.printf("(\"%s\", %s)\n", lex.token, lex.type);
                     break;
             }
+        */
         } catch (Exception e) {
             System.err.println("Internal error: " + e.getMessage());
         }
