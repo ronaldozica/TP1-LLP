@@ -2,13 +2,9 @@
 
 <h2>--> Desenvolvido por:</h2> 
   
-  <br/> - Násser Rafael França Kilesse
-  [![Github Badge](https://img.shields.io/badge/-NásserRafael-black?style=flat-square&logo=Github&logoColor=white&link=https://www.github.com/nasserrafaelfk/)](https://www.github.com/nasserrafaelfk/) | 
-  [![Linkedin Badge](https://img.shields.io/badge/-NásserRafael-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/nasserrafaelfk/)](https://www.linkedin.com/in/nasserrafaelfk/)
+  <br/> - Násser Rafael França Kilesse - Matrícula: 20193018051
   
-  <br/> - Ronaldo Mendonça Zica
-  [![Github Badge](https://img.shields.io/badge/-RonaldoZica-black?style=flat-square&logo=Github&logoColor=white&link=https://www.github.com/ronaldozica/)](https://www.github.com/ronaldozica/) |
-  [![Linkedin Badge](https://img.shields.io/badge/-RonaldoZica-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/ronaldo-zica/)](https://www.linkedin.com/in/ronaldo-zica/)
+  <br/> - Ronaldo Mendonça Zica - Matrícula: 20193018768
   
 <h2> --> Objetivo </h2>
 
