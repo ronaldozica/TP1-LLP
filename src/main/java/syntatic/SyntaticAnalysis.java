@@ -7,18 +7,28 @@ import interpreter.command.BlocksCommand;
 import interpreter.command.Command;
 import interpreter.command.OutputCommand;
 import interpreter.command.OutputOp;
+import interpreter.expr.AccessExpr;
 import interpreter.expr.ConstExpr;
+import interpreter.expr.ConvExpr;
+import interpreter.expr.ConvOp;
 import interpreter.expr.Expr;
+import interpreter.value.ArrayValue;
 import interpreter.value.IntegerValue;
 import interpreter.value.StringValue;
+<<<<<<< Updated upstream:src/main/java/syntatic/SyntaticAnalysis.java
 import java.io.IOException;
+=======
+import interpreter.value.Value;
+import java.io.IOException;
+import java.util.Vector;
+>>>>>>> Stashed changes:syntatic/SyntaticAnalysis.java
 import lexical.Lexeme;
 import lexical.LexicalAnalysis;
 import lexical.LexicalException;
 import lexical.TokenType;
 
 public class SyntaticAnalysis {
-
+    
     private LexicalAnalysis lex;
     private Lexeme current;
 
@@ -163,7 +173,13 @@ public class SyntaticAnalysis {
             procCode();
         }
         
+<<<<<<< Updated upstream:src/main/java/syntatic/SyntaticAnalysis.java
         eat(TokenType.END);
+=======
+        if(current.type == TokenType.END){
+            eat(TokenType.END);
+        }
+>>>>>>> Stashed changes:syntatic/SyntaticAnalysis.java
     }
 
     // <while>    ::= while <boolexpr> [ do ] <code> end
@@ -332,8 +348,16 @@ public class SyntaticAnalysis {
         Expr expr = procTerm();
 
         while (current.type == TokenType.ADD || current.type == TokenType.SUB) {
-            advance();
-            procTerm();
+            
+            if(current.type == TokenType.ADD){
+                advance();
+                procTerm();
+            }
+            else{       // SUB
+                advance();
+                //ConvExpr exprAux = new ConvExpr(lex.getLine(), ConvOp.MinusOp, expr);
+                procTerm();
+            }
         }
 
         return expr;
@@ -368,11 +392,9 @@ public class SyntaticAnalysis {
     // <factor>   ::= [ '+' | '-' ] ( <const> | <input> | <access> ) [ <function> ]
     private Expr procFactor() throws LexicalException, IOException {
         
-        if(current.type == TokenType.ADD ||
-           current.type == TokenType.SUB){
-            advance();
-        }
+        Expr expr = null;
         
+<<<<<<< Updated upstream:src/main/java/syntatic/SyntaticAnalysis.java
         if(current.type == TokenType.INTEGER ||
            current.type == TokenType.STRING  ||
            current.type == TokenType.OPEN_BRA){
@@ -386,16 +408,62 @@ public class SyntaticAnalysis {
         }
         else if(current.type == TokenType.ID ||
            current.type == TokenType.OPEN_PAR){
+=======
+        if(current.type == TokenType.SUB){
+            
+>>>>>>> Stashed changes:syntatic/SyntaticAnalysis.java
             advance();
-            procAccess();
+            
+            if(current.type == TokenType.INTEGER){
+                expr = procConst();
+            }
+            else{
+                showError();
+            }
+            
+            ConvExpr exprAux = new ConvExpr(lex.getLine(), ConvOp.MinusOp, expr);
+            
+            if(current.type == TokenType.DOT){
+                eat(TokenType.DOT);
+                procFunction();
+            }
+            
+            return exprAux;
         }
         
-        if(current.type == TokenType.DOT){
-            eat(TokenType.DOT);
-            procFunction();
+        else{
+            if(current.type == TokenType.ADD){
+                eat(TokenType.ADD);
+            }
+            
+            if(current.type == TokenType.INTEGER ||
+                current.type == TokenType.STRING  ||
+                current.type == TokenType.OPEN_BRA){
+                 //advance();
+                 expr = procConst();
+            }
+            else if(current.type == TokenType.GETS ||
+                    current.type == TokenType.RAND){
+                advance();
+                procInput();
+            }
+            else if(current.type == TokenType.ID ||
+                current.type == TokenType.OPEN_PAR){
+                //advance();
+                expr = procAccess();
+            }
+
+            if(current.type == TokenType.DOT){
+                eat(TokenType.DOT);
+                procFunction();
+            }
         }
         
+<<<<<<< Updated upstream:src/main/java/syntatic/SyntaticAnalysis.java
         return procConst();
+=======
+        return expr;
+>>>>>>> Stashed changes:syntatic/SyntaticAnalysis.java
     }
 
     // <const>    ::= <integer> | <string> | <array>
@@ -406,7 +474,8 @@ public class SyntaticAnalysis {
         } else if (current.type == TokenType.STRING) {
             expr = procString();
         } else {
-            procArray();
+            expr = procArray();
+            //procArray();
         }
         return expr;
     }
@@ -423,8 +492,17 @@ public class SyntaticAnalysis {
     }
 
     // <array>    ::= '[' [ <expr> { ',' <expr> } ] ']'
+<<<<<<< Updated upstream:src/main/java/syntatic/SyntaticAnalysis.java
     private void procArray() throws LexicalException, IOException {
         // VERIFICAR - CREIO QUE NÃO FUNCIONA PARA ARRAY
+=======
+    private ConstExpr procArray() throws LexicalException, IOException {
+
+        Vector<Value<?>> value = new Vector<>();
+        
+        int line = lex.getLine();
+        Expr exprAux = null;
+>>>>>>> Stashed changes:syntatic/SyntaticAnalysis.java
         
         if(current.type == TokenType.OPEN_BRA){
             eat(TokenType.OPEN_BRA);
@@ -439,25 +517,51 @@ public class SyntaticAnalysis {
                 current.type == TokenType.RAND ||
                 current.type == TokenType.ID ||
                 current.type == TokenType.OPEN_PAR) {
-            procExpr();
+            exprAux = procExpr();
+            
+            if(exprAux != null){
+                value.add(exprAux.expr());
+            }
 
             while (current.type == TokenType.COMMA) {
                 advance();
-                procExpr();
+                
+                exprAux = procExpr();
+                
+                if(exprAux != null){
+                    value.add(exprAux.expr());
+                }
             }
         }
 
         if(current.type == TokenType.CLOSE_BRA){
             eat(TokenType.CLOSE_BRA);
         }
+<<<<<<< Updated upstream:src/main/java/syntatic/SyntaticAnalysis.java
     }
 
     // <access>   ::= ( <id> | '(' <expr> ')' ) [ '[' <expr> ']' ]
     private void procAccess() throws LexicalException, IOException {
+=======
+        
+        line = lex.getLine();
+
+        ArrayValue av = new ArrayValue(value);
+        ConstExpr cexpr = new ConstExpr(line, av);
+        
+        return cexpr;
+    }
+
+    // <access>   ::= ( <id> | '(' <expr> ')' ) [ '[' <expr> ']' ]
+    private Expr procAccess() throws LexicalException, IOException {
+        
+        Expr expr = null;
+>>>>>>> Stashed changes:syntatic/SyntaticAnalysis.java
         
         if(current.type == TokenType.ID){
             eat(TokenType.ID);
         }    
+<<<<<<< Updated upstream:src/main/java/syntatic/SyntaticAnalysis.java
         else if(current.type == TokenType.OPEN_BRA){
             //eat(TokenType.OPEN_BRA);
             procExpr();
@@ -469,6 +573,23 @@ public class SyntaticAnalysis {
             procExpr();
             eat(TokenType.CLOSE_PAR);
         }
+=======
+        
+        else if(current.type == TokenType.OPEN_PAR){
+            eat(TokenType.OPEN_PAR);
+            expr = procExpr();
+            eat(TokenType.CLOSE_PAR);
+        }
+        
+        if(current.type == TokenType.OPEN_BRA){
+            eat(TokenType.OPEN_BRA);
+            expr = procExpr();
+            // Ao invés de pegar a posição do array, está considerando a posição atual como um integer
+            eat(TokenType.CLOSE_BRA);
+        }
+        
+        return expr;
+>>>>>>> Stashed changes:syntatic/SyntaticAnalysis.java
     }
 
     // <function> ::= '.' ( length | to_i | to_s )

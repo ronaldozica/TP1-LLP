@@ -1,1 +1,5 @@
+<<<<<<< Updated upstream
 puts 'Ola mundo';
+=======
+puts 'hello world';
+>>>>>>> Stashed changes
