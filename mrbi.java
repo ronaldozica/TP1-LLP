@@ -1,8 +1,29 @@
+<<<<<<< Updated upstream:mrbi.java
 import lexical.Lexeme;
+=======
+
+package main;
+
+import interpreter.command.Command;
+import java.io.IOException;
+>>>>>>> Stashed changes:src/main/java/main/main.java
 import lexical.LexicalAnalysis;
 import lexical.TokenType;
 
+<<<<<<< Updated upstream:mrbi.java
 public class mrbi {
+=======
+    public static void main(String[] args) throws IOException {
+     
+        System.out.println("Código aberto: " + args[0]);
+        
+        /* - Debug para verificar o arquivo passado e o diretório atual:
+        
+        System.out.println(args[0]);
+        
+        String currentPath = new java.io.File(".").getCanonicalPath();
+        System.out.println("Current dir:" + currentPath);
+>>>>>>> Stashed changes:src/main/java/main/main.java
 
     public static void main(String[] args) {
         if (args.length != 1) {

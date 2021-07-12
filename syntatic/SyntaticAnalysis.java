@@ -102,11 +102,92 @@ public class SyntaticAnalysis {
     }
 
     // <if>       ::= if <boolexpr> [ then ] <code> { elsif <boolexpr> [ then ] <code> } [ else <code> ] end
+<<<<<<< Updated upstream:syntatic/SyntaticAnalysis.java
     private void procIf() throws LexicalException {
     }
 
     // <unless>   ::= unless <boolexpr> [ then ] <code> [ else <code> ] end
     private void procUnless() throws LexicalException {
+=======
+    private void procIf() throws LexicalException, IOException {
+        eat(TokenType.IF);
+        
+        if(current.type == TokenType.OPEN_PAR){
+            while(current.type == TokenType.OPEN_PAR){
+                eat(TokenType.OPEN_PAR);
+                procBoolExpr();
+                eat(TokenType.CLOSE_PAR);
+
+                while( (current.type != TokenType.SEMI_COLON) && (current.type != TokenType.THEN)){
+                    procBoolExpr();
+                }
+            }
+        }
+        else{
+            procBoolExpr();
+        }
+        
+        if(current.type == TokenType.THEN){
+            eat(TokenType.THEN);
+        }
+        
+        procCode();
+        
+        while(current.type == TokenType.ELSIF){
+            eat(TokenType.ELSIF);
+            procBoolExpr();
+            
+            if(current.type == TokenType.THEN){
+                eat(TokenType.THEN);
+            }
+            
+            procCode();
+        }
+        
+        if(current.type == TokenType.ELSE){
+            eat(TokenType.ELSE);
+            procCode();
+        }
+        
+        if(current.type == TokenType.END){
+            eat(TokenType.END);
+        }
+    }
+
+    // <unless>   ::= unless <boolexpr> [ then ] <code> [ else <code> ] end
+    private void procUnless() throws LexicalException, IOException {
+        eat(TokenType.UNLESS);
+        
+        if(current.type == TokenType.OPEN_PAR){
+            while(current.type == TokenType.OPEN_PAR){
+                eat(TokenType.OPEN_PAR);
+                procBoolExpr();
+                eat(TokenType.CLOSE_PAR);
+
+                while( (current.type != TokenType.SEMI_COLON) && (current.type != TokenType.THEN)){
+                    procBoolExpr();
+                }
+            }
+        }
+        else{
+            procBoolExpr();
+        }
+        
+        if(current.type == TokenType.THEN){
+            eat(TokenType.THEN);
+        }
+        
+        procCode();
+        
+        if(current.type == TokenType.ELSE){
+            eat(TokenType.ELSE);
+            procCode();
+        }
+        
+        if(current.type == TokenType.END){
+            eat(TokenType.END);
+        }
+>>>>>>> Stashed changes:src/main/java/syntatic/SyntaticAnalysis.java
     }
 
     // <while>    ::= while <boolexpr> [ do ] <code> end
@@ -157,9 +238,15 @@ public class SyntaticAnalysis {
             expr = procExpr();
         }
 
+<<<<<<< Updated upstream:syntatic/SyntaticAnalysis.java
         // if (current.type == TokenType.IF || current.type == TokenType.UNLESS) {
         //     procPost();
         // }
+=======
+        if (current.type == TokenType.IF || current.type == TokenType.UNLESS) {
+            procPost();
+        }
+>>>>>>> Stashed changes:src/main/java/syntatic/SyntaticAnalysis.java
 
         eat(TokenType.SEMI_COLON);
 
@@ -195,9 +282,11 @@ public class SyntaticAnalysis {
     // <post>     ::= ( if | unless ) <boolexpr>
     private void procPost() throws LexicalException {
         if (current.type == TokenType.IF) {
-            advance();
+            //advance();
+            procIf();
         } else if (current.type == TokenType.UNLESS) {
-            advance();
+            //advance();
+            procUnless();
         } else {
             showError();
         }
@@ -265,8 +354,40 @@ public class SyntaticAnalysis {
     }
 
     // <factor>   ::= [ '+' | '-' ] ( <const> | <input> | <access> ) [ <function> ]
+<<<<<<< Updated upstream:syntatic/SyntaticAnalysis.java
     private Expr procFactor() throws LexicalException {
         // ...
+=======
+    private Expr procFactor() throws LexicalException, IOException {
+        
+        if(current.type == TokenType.ADD ||
+           current.type == TokenType.SUB){
+            advance();
+        }
+        
+        if(current.type == TokenType.INTEGER ||
+           current.type == TokenType.STRING  ||
+           current.type == TokenType.OPEN_BRA){
+            //advance();
+            procConst();
+        }
+        else if(current.type == TokenType.GETS ||
+                current.type == TokenType.RAND){
+            advance();
+            procInput();
+        }
+        else if(current.type == TokenType.ID ||
+           current.type == TokenType.OPEN_PAR){
+            advance();
+            procAccess();
+        }
+        
+        if(current.type == TokenType.DOT){
+            eat(TokenType.DOT);
+            procFunction();
+        }
+        
+>>>>>>> Stashed changes:src/main/java/syntatic/SyntaticAnalysis.java
         return procConst();
     }
 
@@ -288,8 +409,16 @@ public class SyntaticAnalysis {
     }
 
     // <array>    ::= '[' [ <expr> { ',' <expr> } ] ']'
+<<<<<<< Updated upstream:syntatic/SyntaticAnalysis.java
     private void procArray() throws LexicalException {
         eat(TokenType.OPEN_BRA);
+=======
+    private void procArray() throws LexicalException, IOException {
+        
+        if(current.type == TokenType.OPEN_BRA){
+            eat(TokenType.OPEN_BRA);
+        }
+>>>>>>> Stashed changes:src/main/java/syntatic/SyntaticAnalysis.java
 
         if (current.type == TokenType.ADD ||
                 current.type == TokenType.SUB ||
@@ -312,7 +441,27 @@ public class SyntaticAnalysis {
     }
 
     // <access>   ::= ( <id> | '(' <expr> ')' ) [ '[' <expr> ']' ]
+<<<<<<< Updated upstream:syntatic/SyntaticAnalysis.java
     private void procAccess() throws LexicalException {
+=======
+    private void procAccess() throws LexicalException, IOException {
+        
+        if(current.type == TokenType.ID){
+            eat(TokenType.ID);
+        }    
+        
+        if(current.type == TokenType.OPEN_BRA){
+            eat(TokenType.OPEN_BRA);
+            procExpr();
+            //eat(TokenType.CLOSE_BRA);
+        }
+        
+        if(current.type == TokenType.OPEN_PAR){
+            eat(TokenType.OPEN_PAR);
+            procExpr();
+            eat(TokenType.CLOSE_PAR);
+        }
+>>>>>>> Stashed changes:src/main/java/syntatic/SyntaticAnalysis.java
     }
 
     // <function> ::= '.' ( length | to_i | to_s )
