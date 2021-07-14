@@ -3,11 +3,6 @@ package main;
 
 import interpreter.command.Command;
 import java.io.IOException;
-<<<<<<< Updated upstream:src/main/java/main/main.java
-import java.util.Arrays;
-import lexical.Lexeme;
-=======
->>>>>>> Stashed changes:mrbi.java
 import lexical.LexicalAnalysis;
 import lexical.TokenType;
 import syntatic.SyntaticAnalysis;
@@ -16,23 +11,6 @@ public class main {
 
     public static void main(String[] args) throws IOException {
      
-<<<<<<< Updated upstream:src/main/java/main/main.java
-        System.out.println("Código aberto: " + args[0] + "\n");
-        
-        /* - Debug para verificar o arquivo passado e o diretório atual:
-        
-        System.out.println(args[0]);
-        
-        String currentPath = new java.io.File(".").getCanonicalPath();
-        System.out.println("Current dir:" + currentPath);
-
-        String currentDir = System.getProperty("user.dir");
-        System.out.println("Current dir using System:" + currentDir);
-        
-        */
-        
-=======
->>>>>>> Stashed changes:mrbi.java
         if (args.length != 1) {
             // Exibe uma mensagem caso não seja passado nenhum parâmetro para args
             System.out.println("Usage: java mrbi [miniRuby file]");
@@ -62,11 +40,7 @@ public class main {
             // TODO: descomentar depois que o analisador léxico estiver OK.
             SyntaticAnalysis s = new SyntaticAnalysis(l);
             Command c = s.start();
-<<<<<<< Updated upstream:src/main/java/main/main.java
-            //c.execute();
-=======
             c.execute();
->>>>>>> Stashed changes:mrbi.java
             
 
             // O código a seguir é usado apenas para testar o analisador léxico.

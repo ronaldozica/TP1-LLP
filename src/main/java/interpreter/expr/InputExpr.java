@@ -1,7 +1,11 @@
 
 package interpreter.expr;
 
+import interpreter.value.IntegerValue;
+import interpreter.value.StringValue;
 import interpreter.value.Value;
+import java.util.Random;
+import java.util.Scanner;
 
 public class InputExpr extends Expr{
 
@@ -15,10 +19,17 @@ public class InputExpr extends Expr{
     @Override
     public Value<?> expr() {
         if(op == InputOp.GetsOp){
-            return null;
+            Scanner scanner = new Scanner(System.in);
+            String inputString = scanner.nextLine();
+            Value valor = new StringValue(inputString);
+            return valor;
         }
         else{
-            return null;
+            Random rand = new Random();
+            rand.setSeed (System.currentTimeMillis());
+            int valorRandom = rand.nextInt();
+            Value valor = new IntegerValue(valorRandom);
+            return valor;
         }
     }
 

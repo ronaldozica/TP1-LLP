@@ -4,7 +4,7 @@ import interpreter.value.Value;
 
 public abstract class Expr {
 
-    private int line;
+    int line;
 
     protected Expr(int line) {
         this.line = line;

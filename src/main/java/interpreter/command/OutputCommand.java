@@ -28,7 +28,7 @@ public class OutputCommand extends Command {
         }
 
         if (op == OutputOp.PutsOp)
-            System.out.println();
+            System.out.println("");
     }
 
 }

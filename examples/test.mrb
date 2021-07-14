@@ -1,1 +1,11 @@
-puts (-3);
+puts 5 % 2;
+puts 2 * 3;
+puts -10;
+puts rand;
+puts 10 - 3;
+puts 3..7;
+puts 3...7;
+puts 7..3;
+puts 7...3;
+puts 3..3;
+puts 5...5;
